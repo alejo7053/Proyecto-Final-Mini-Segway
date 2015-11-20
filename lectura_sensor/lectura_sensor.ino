@@ -4,7 +4,7 @@
 #define GYRO_CONFIG 0x1B
 //MPU-6050 da los valores en enteros de 16 bits
 //valores en bruto
-int16_t AX, AY, AZ, GX, GY, GZ,TEMP;
+int16_t GY;
 
 
 void setup() {
@@ -16,25 +16,21 @@ void setup() {
  Wire.begin();
  Wire.beginTransmission(MPU);
  Wire.write(GYRO_CONFIG);
- Wire.write(19<<3);
+ Wire.write(3<<3);
  Wire.endTransmission(true);
  Serial.begin(9600);
-
 }
 
 void loop() {
-  //miramos valores del acelerometro
+  
 Wire.beginTransmission(MPU);
-Wire.write(0x43); //pedimos el registro 0x3B-corresponde a la aceleracion en X
+Wire.write(0x45); //pedimos el registro 0x45-corresponde al giroscopio en Y
 Wire.endTransmission(false);
-Wire.requestFrom(MPU,6,true);//apartir  del registro 0x43, pedimos el resto de registros
-GX=Wire.read()<<8|Wire.read();
+Wire.requestFrom(MPU,0,true);//apartir  del registro 0x45, pedimos el resto de registros
 GY=Wire.read()<<8|Wire.read();
-GZ=Wire.read()<<8|Wire.read();
-Serial.print(" | GX = "); Serial.print(GX);
-Serial.print(" | GY = "); Serial.println(GY);
-Serial.print(" | GZ = "); Serial.println(GZ);
+Serial.print("GY = "); 
+Serial.println(GY);
 
-  delay(330);
+  delay(10);
 
 }
