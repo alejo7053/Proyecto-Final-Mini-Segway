@@ -23,8 +23,8 @@
     </section>
 
     <section class="main-content">
-      <h2>
-<a id="lectura-sensor" class="anchor" href="#lectura-sensor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lectura del sensor</h2>
+      <h3>
+<a id="lectura-sensor" class="anchor" href="#lectura-sensor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lectura del sensor</h3>
 
 <p>Este codigo se encuentra en el repositorio <a href="https://github.com/alejo7053/Proyecto-Final-Mini-Segway/blob/master/lectura_sensor/lectura_sensor.ino">(click aqui)</a>, corresponde a la forma en que se leen los datos del giroscopio, en este caso utilizamos el giroscopio del eje Y, asi que se accede a los registros del MPU por medio de la libreria <code>&lt;wire.h&gt;</code> la cual permite la comunicación entre el Arduino y un dispositivo que posea comunicación I2C. En las tarjetas Arduino se tienen los pines SDA (linea de datos) y SCL (linea de reloj); estos pines se conectan directamente a los mismos pines del MPU6050 para realizar la comunicación entre el sensor y el arduino.</p>
 <p>Se definen dos macros <code>#define MPU 0x68, #define GYRO_CONFIG 0x1B</code>, se guarda la dirección de I2C del MPU y la dirección del registro de configuración del giroscopio respectivamente.</p>
@@ -45,15 +45,28 @@ GY=Wire.read()<<8|Wire.read();</code></p>
 
 <p>Implementando este codigo en <code>void loop()</code> se realiza la lectura del valor en Y del giroscopio, el giroscopio transmite el valor en 2 partes de 8 bits cada una, iniciando en la direccion <code>0x45</code> y la siguiente, después de leer estas dos direcciones se suman los bits y se guardan en la variable <code>int16_t GY</code>.</p>
 
-<h2>
-<a id="pwm" class="anchor" href="#pwm" aria-hidden="true"><span class="octicon octicon-link"></span></a>PWM</h2>
+<h3>
+<a id="pwm" class="anchor" href="#pwm" aria-hidden="true"><span class="octicon octicon-link"></span></a>PWM</h3>
 
-<p>Codigo del PWM aqui</p>
+<p>Este codigo se encuentra en el repositorio <a href="https://github.com/alejo7053/Proyecto-Final-Mini-Segway/blob/master/senal_pwm/senal_pwm.ino">(click aqui)</a>, con este codigo se controla la velocidad y el sentido de giro del motor ya que se conecta a un puente H y dependiendo de la configuración que se le de a cada entrada de este, gira hacia un sentido y con cierta velocidad el motor.</p>
+<p><code>
+if(valorpot>=0&&valorpot<=511){<br>
+digitalWrite(pinA1,HIGH);<br>
+digitalWrite(pinB1,LOW);<br>
+valorveloc=map(valorpot, 0, 511, 255, 90);<br>
+analogWrite(pinEN1,valorveloc);}<br><br>
+else if(valorpot>=512&&valorpot<=1023){<br>
+digitalWrite(pinA1,LOW);<br>
+digitalWrite(pinB1,HIGH);<br>
+valorveloc=map(valorpot, 512, 1023, 70, 255);<br>
+analogWrite(pinEN1,valorveloc);}</code></p>
 
-<h2>
-<a id="control" class="anchor" href="#control" aria-hidden="true"><span class="octicon octicon-link"></span></a>Control</h2>
+<p>Luego de declarar pines de entrada y salida, se implementa este codigo para probar el funcionamiento del arduino junto con el puente H. La entrada es la lectura analogica de un potenciometro, que se divide en dos para que una mitad haga que el motor gire en un sentido y a determinada velocidad y la otra mitad hacia el otro lado. Las pruebas con este codigo arrojaron resultados positivos por lo tanto se implemento en el codigo final.</p>
 
-<p>Codigo del control Aqui</p>
+<h3>
+<a id="codigo-final" class="anchor" href="#codigo-final" aria-hidden="true"><span class="octicon octicon-link"></span></a>Codigo Final</h3>
+
+<p>Este codigo se encuentra en el repositorio <a href="https://github.com/alejo7053/Proyecto-Final-Mini-Segway/blob/master/codigo_final/codigo_final.ino">(click aqui)</a>, y es la unión de los dos codigos anteriores pero se cambian las condiciones de los sentidos de giro de los motores para el pwm y el puente H, se organizan de modo que funcionen con los valores obtenidos del giroscopio, ademas de caracterizar los valores del giroscopio y darles unos limites a los positivos y negativos para realizar un control on/off de manera sencilla.</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/alejo7053/Proyecto-Final-Mini-Segway">Proyecto Final Mini Segway</a> is maintained by <a href="https://github.com/alejo7053">alejo7053</a>.</span>
