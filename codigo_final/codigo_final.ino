@@ -53,7 +53,6 @@ void loop() {
   Serial.println(GY);
 /*-------------------------------------------------------------*/
 
-/*------------------ CONTROL ----------------------------------*/
 
 if(GY >= 255){
   GY =255;
@@ -63,15 +62,12 @@ if(GY<=-255){
   GY = -255;
 }
 
-/*-------------------------------------------------------------*/
-
 /*--------------------------- PWM -----------------------------*/
 if(GY>0)
 {
 digitalWrite(pinA1,HIGH); //valores  ALTO en A y BAJO  en B simultaneamente
 digitalWrite(pinB1,LOW); // hacen girar el motor 1 hacia adelante
 valorveloc=map(GY, 0, 255, 255, 30);// convierte un valor 0 y 1023 al rango 0-255
-// valorveloc=valorpot/4; // segunda opcion
 analogWrite(pinEN1,valorveloc); // y establece la velocidad del motor con ese valor
  
 }
@@ -79,7 +75,6 @@ else if(GY<0){
 digitalWrite(pinA1,LOW);// valores ALTO en A y BAJO en B simultaneamente
 digitalWrite(pinB1,HIGH); // hacen girar el motor 1 hacia adelante
 valorveloc=map(GY, 0, -255, 30, 255); // convierte un valor entre 0 y 1023 al rango 0-255
-// valorVeloc=valorPot/4; // Segunda opcion
 analogWrite(pinEN1,valorveloc); // y establece la velocidad del motor con ese valor
 }
 /*------------------------------------------------------------------------------------*/
